@@ -3,7 +3,10 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "npx tsx ./src/index.ts",
+    "format": "biome format . --write",
+    "check": "biome check .",
+    "fix": "biome check . --write"
   },
   "keywords": [],
   "author": "",
@@ -15,6 +18,7 @@
     "typescript": "^5.9.2"
   },
   "dependencies": {
+    "@biomejs/biome": "^2.2.4",
     "node-dht-sensor": "^0.4.5"
   }
 }
