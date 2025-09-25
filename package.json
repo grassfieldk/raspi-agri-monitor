@@ -13,12 +13,14 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
+    "@types/express": "^5.0.3",
     "@types/node": "^24.5.2",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"
   },
   "dependencies": {
     "@biomejs/biome": "^2.2.4",
+    "express": "^5.1.0",
     "node-dht-sensor": "^0.4.5"
   }
 }
