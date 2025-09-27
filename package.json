@@ -1,5 +1,5 @@
 {
-  "name": "raspi-agri-monitor",
+  "name": "agrimonitor-raspi",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
