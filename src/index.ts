@@ -1,5 +1,10 @@
+import { exec } from "node:child_process";
+import fs from "node:fs";
+import { promisify } from "node:util";
 import express, { type Request, type Response } from "express";
 import { read } from "node-dht-sensor";
+
+const execAsync = promisify(exec);
 
 const SENSOR_TYPE = 22;
 const GPIO_PIN = 2;
@@ -44,6 +49,39 @@ app.get("/sensor", (_req: Request, res: Response) => {
   } catch (e) {
     res.status(500).json({
       error: (e as Error).message,
+    });
+  }
+});
+
+app.get("/photo", async (_req: Request, res: Response) => {
+  console.log(`[${formatDate(new Date())}] Photo request from ${_req.ip}`);
+
+  try {
+    const timestamp = Date.now();
+    const filename = `photo_${timestamp}.jpg`;
+    const filepath = `/tmp/${filename}`;
+
+    await execAsync(`rpicam-still -o ${filepath} --quality 100 --timeout 2000`);
+
+    if (!fs.existsSync(filepath)) {
+      throw new Error("Photo capture failed - file not created");
+    }
+
+    res.sendFile(filepath, (err) => {
+      if (err) {
+        console.error("Error sending file:", err);
+      }
+      fs.unlink(filepath, (unlinkErr) => {
+        if (unlinkErr) {
+          console.error("Error deleting temp file:", unlinkErr);
+        }
+      });
+    });
+  } catch (error) {
+    console.error("Camera capture error:", error);
+    res.status(500).json({
+      error: "Camera capture failed",
+      details: (error as Error).message,
     });
   }
 });
