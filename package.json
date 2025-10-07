@@ -15,6 +15,7 @@
   "devDependencies": {
     "@types/express": "^5.0.3",
     "@types/node": "^24.5.2",
+    "@types/node-dht-sensor": "^0.4.2",
     "tsx": "^4.20.5",
     "typescript": "^5.9.2"
   },

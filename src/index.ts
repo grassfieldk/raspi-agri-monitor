@@ -10,8 +10,9 @@ function getSensorData() {
   const now = new Date();
   const datetime = formatDate(now);
   const unixtime = Math.floor(now.getTime() / 1000);
-  const temperature = result.isValid ? result.temperature.toFixed(1) : "[error]";
-  const humidity = result.isValid ? result.humidity.toFixed(1) : "[error]";
+  const isValid = typeof result.temperature === "number" && typeof result.humidity === "number";
+  const temperature = isValid ? result.temperature.toFixed(1) : "[error]";
+  const humidity = isValid ? result.humidity.toFixed(1) : "[error]";
 
   return { datetime, unixtime, temperature, humidity };
 }
