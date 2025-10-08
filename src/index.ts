@@ -5,20 +5,27 @@
 
 import fs from "node:fs";
 import express, { type Request, type Response } from "express";
+import jsonServer from "json-server";
 import { CAPTURE_CONFIG, CAPTURE_INTERVAL, PORT, RECENT_PHOTO_PATH } from "./constants";
 import { execRpicamStill, startPeriodicCapture, warmupCamera } from "./services/camera";
 import { getSensorData } from "./services/sensor";
 import { formatDate } from "./utils";
 
 const app = express();
+const jsonRouter = jsonServer.router("json/db.json");
 
-// Serve static files from public directory directly
+// Serve static files from public directory
 app.use("/public", express.static("public"));
+
+// Provide CRUD API for JSON Server
+app.use("/data", jsonRouter);
 
 // Start Express server and initialize camera
 app.listen(PORT, async () => {
-  console.log(`Server running at http://localhost:${PORT}/sensor`);
-  console.log(`Recent photo available at http://localhost:${PORT}/resource/photo`);
+  console.log(`Server running at http://localhost:${PORT}`);
+  console.log(`Sensor API:        /sensor`);
+  console.log(`Photo API:         /photo`);
+  console.log(`JSON CRUD API:     /data`);
 
   // Pre-warm camera module to improve response time
   await warmupCamera();
@@ -58,12 +65,12 @@ app.get("/photo", async (_req: Request, res: Response) => {
       throw new Error("Photo capture failed - file not created");
     }
 
-    // Send photo file and clean up temporary file
+    // Send photo file and clean up the temporary file
     res.sendFile(filepath, (err) => {
       if (err) {
         console.error("Error sending file:", err);
       }
-      // Delete temporary file after sending
+      // Delete the temporary file after sending
       fs.unlink(filepath, (unlinkErr) => {
         if (unlinkErr) {
           console.error("Error deleting temp file:", unlinkErr);
