@@ -6,7 +6,7 @@
 import fs from "node:fs";
 import express, { type Request, type Response } from "express";
 import jsonServer from "json-server";
-import { CAPTURE_CONFIG, CAPTURE_INTERVAL, PORT, RECENT_PHOTO_PATH } from "./constants";
+import { CAPTURE_CONFIG, CAPTURE_INTERVAL, PORT, LATEST_PHOTO_PATH } from "./constants";
 import { execRpicamStill, startPeriodicCapture, warmupCamera } from "./services/camera";
 import { getSensorData } from "./services/sensor";
 import { formatDate } from "./utils";
@@ -31,7 +31,7 @@ app.listen(PORT, async () => {
   await warmupCamera();
 
   // Start periodic photo capture
-  startPeriodicCapture(CAPTURE_INTERVAL, RECENT_PHOTO_PATH);
+  startPeriodicCapture(CAPTURE_INTERVAL, LATEST_PHOTO_PATH);
 });
 
 // API endpoint to get sensor data (temperature and humidity)

@@ -80,7 +80,7 @@ export async function capturePhotoToFile(outputPath: string): Promise<void> {
 }
 
 /**
- * Start periodic photo capture to save recent photos
+ * Start periodic photo capture to save latest photos
  * @param interval Interval between captures in seconds
  * @param outputPath Path where photos should be saved
  */

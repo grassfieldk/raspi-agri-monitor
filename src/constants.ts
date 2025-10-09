@@ -11,7 +11,7 @@ export const GPIO_PIN = 2; // GPIO pin number for sensor connection
 
 // Camera configuration
 export const CAPTURE_INTERVAL = 5000;
-export const RECENT_PHOTO_PATH = "public/recent.jpg";
+export const LATEST_PHOTO_PATH = "public/latest.jpg";
 export const CAPTURE_CONFIG = [
   "--quality",
   "80",
